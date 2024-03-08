@@ -70,65 +70,98 @@ class Lightning():
     def reset (self): 
         window.blit(self.image,(self.rect.x , self.rect.y))
     def update(self):
+        
         keys = key.get_pressed()
-        if keys[K_a]:
+        
+        if keys[K_d]:
+            global score
+            if sprite.spritecollide(lightnings,titans_top, True):
+                score = score + 1
+                titan_top = Titan_top("titan.png", randint(380,830), 0,25,25,randint(1, 3))
+                titans_top.add(titan_top)
+            if sprite.spritecollide(lightnings,titans_down, True):
+                score = score + 1
+                titan_down = Titan_down("titan.png", randint(380,830), 675,25,25,randint(1, 3))
+                titans_down.add(titan_down) 
+            if sprite.spritecollide(lightnings,titans_right, True):
+                score = score + 1
+                titan_right = Titan_right("titan.png", 0, randint(200, 400),25,25,randint(1, 3))
+                titans_right.add(titan_right)
+            if sprite.spritecollide(lightnings,titans_left, True):
+                score = score + 1
+                titan_left = Titan_left("titan.png", 1175, randint(200, 400),25,25,randint(1, 3))
+                titans_left.add(titan_left) 
             self.animatedd = True
         else: 
-            self.animatedd = False
-
+            if self.count == 7:
+                self.animatedd = False
+        
     def animated(self):
         if self.animatedd:
             self.count = (self.count + 1) % len(lightning)  
             window.blit(lightning[self.count], (self.rect.x, self.rect.y))
         else:
             self.count = 0
-            window.blit(lightning[self.count], (self.rect.x, self.rect.y))
+            window.blit(lightning[self.count], (self.rect.x, self.rect.y))        
+        
 
 
 
 titans_right = sprite.Group() 
 for i in range(1, 5): 
-    titan_right = Titan_right("titan.png", 0, randint(200, 400),25,25,randint(1, 5))
+    titan_right = Titan_right("titan.png", 0, randint(200, 400),25,25,randint(1, 3))
     titans_right.add(titan_right)
  
 titans_left = sprite.Group() 
 for i in range(1, 5): 
-    titan_left = Titan_left("titan.png", 1175, randint(200, 400),25,25,randint(1, 5))
+    titan_left = Titan_left("titan.png", 1175, randint(200, 400),25,25,randint(1, 3))
     titans_left.add(titan_left) 
 
 titans_top = sprite.Group() 
 for i in range(1, 5): 
-    titan_top = Titan_top("titan.png", randint(380,830), 0,25,25,randint(1, 5))
+    titan_top = Titan_top("titan.png", randint(380,830), 0,25,25,randint(1, 3))
     titans_top.add(titan_top)
 
 titans_down = sprite.Group() 
 for i in range(1, 5): 
-    titan_down = Titan_down("titan.png", randint(380,830), 675,25,25,randint(1, 5))
+    titan_down = Titan_down("titan.png", randint(380,830), 675,25,25,randint(1, 3))
     titans_down.add(titan_down)   
-
+pos = mouse.get_pos()
+x = pos[0]
+y = pos[1]
+lightnings = Lightning('lightning_1.png', x - 50, y - 290, 100, 290, None)
 olimp = GameSprite("olimp_4.png", 370, 230, 460, 240, None)        
 game = True
 finish = False
 score = 0
 lightning = [image.load('lightning_1.png'), image.load("lightning_2.png"),image.load("lightning_3.png"),image.load('lightning_4.png'),image.load('lightning_5.png'),image.load('lightning_6.png'),image.load('lightning_7.png'),image.load("lightning_8.png"),image.load("lightning_9.png")]
-lightnings = Lightning('lightning_1.png', 100, 100, 50, 100, None)
+
 font.init()
 font1 = font.Font(None,36)
 font2 = font.Font(None,56)
 
 lost = 0
 score = 0
+
 while game:
+
     for e in event.get(): 
         if e.type == QUIT: 
             game = False 
     if not finish:
+        pos = mouse.get_pos()
+        x = pos[0]
+        y = pos[1]
+        if lightnings.count == 0:
+            lightnings = Lightning('lightning_1.png', x - 50, y - 290, 100, 290, None)
         losting = font1.render('Пропущено: ' + str(lost), 1, (255, 255, 255))
         killed = font1.render('Вбито: ' + str(score), 1, (255,255,255))
         window.blit(background, (0, 0))
         window.blit(losting,(10,20))
         window.blit(killed,(10,60))
         over_los = font2.render('Ти програв:',1,(144,30,45))
+        over_win = font2.render('Ти виграв:',1,(25,138,33))
+
         olimp.reset()
         
         titans_right.update()
@@ -144,9 +177,14 @@ while game:
         titans_down.draw(window)
 
         lightnings.update()
-        lightnings.animated()       
-        if lost >= 3:
+        lightnings.animated()
+        
+           
+        if lost >= 10000:
             window.blit(over_los,(500,300))
+            finish = True
+        if score >= 1000:
+            window.blit(over_win, (500,300))
             finish = True
 
     display.update() 
