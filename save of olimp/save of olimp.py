@@ -73,7 +73,7 @@ class Lightning():
         
         keys = key.get_pressed()
         
-        if keys[K_d]:
+        if mouse.get_pressed()[0]:  
             global score
             if sprite.spritecollide(lightnings,titans_top, True):
                 score = score + 1
@@ -180,10 +180,10 @@ while game:
         lightnings.animated()
         
            
-        if lost >= 10000:
+        if lost >= 10:
             window.blit(over_los,(500,300))
             finish = True
-        if score >= 1000:
+        if score >= 20:
             window.blit(over_win, (500,300))
             finish = True
 
