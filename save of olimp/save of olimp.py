@@ -9,7 +9,7 @@ mixer.init()
 #fon
 window = display.set_mode((win_width, win_height)) 
 display.set_caption("Save of Olimp")
-fon = 'background.jpg'
+fon = 'background2.jpg'
 background = transform.scale(image.load(fon), (win_width, win_height))
 class GameSprite(sprite.Sprite): 
  
@@ -93,7 +93,7 @@ class Lightning():
                 titans_left.add(titan_left) 
             self.animatedd = True
         else: 
-            if self.count == 7:
+            if self.count == 8:
                 self.animatedd = False
         
     def animated(self):
@@ -134,7 +134,7 @@ olimp = GameSprite("olimp_4.png", 370, 230, 460, 240, None)
 game = True
 finish = False
 score = 0
-lightning = [image.load('lightning_1.png'), image.load("lightning_2.png"),image.load("lightning_3.png"),image.load('lightning_4.png'),image.load('lightning_5.png'),image.load('lightning_6.png'),image.load('lightning_7.png'),image.load("lightning_8.png"),image.load("lightning_9.png")]
+lightning = [image.load('lightning_0.png'),image.load('lightning_1.png'), image.load("lightning_2.png"),image.load("lightning_3.png"),image.load('lightning_4.png'),image.load('lightning_5.png'),image.load('lightning_6.png'),image.load('lightning_7.png'),image.load("lightning_8.png"),image.load("lightning_9.png")]
 
 font.init()
 font1 = font.Font(None,36)
